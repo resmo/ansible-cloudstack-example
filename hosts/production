@@ -1,0 +1,6 @@
+[cloud:children]
+search
+
+[search]
+search-01.example.com
+search-02.example.com
