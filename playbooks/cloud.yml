@@ -5,28 +5,32 @@
   gather_facts: no
   tasks:
   - name: upload ssh key to cloudstack
-    cloudstack_sshkey:
+    cs_sshkeypair:
       name: defaultkey
       public_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 
+  - name: ensure affinity group exist
+    cs_affinitygroup:
+      name: search
+
   - name: ensure security groups exist
-    cloudstack_sg:
+    cs_securitygroup:
       name: '{{ item }}'
     with_items:
     - default
     - search
 
   - name: add inbound SSH to security group default
-    cloudstack_sg_rule:
-      name: default
+    cs_securitygroup_rule:
+      security_group: default
       start_port: '{{ item }}'
       end_port: '{{ item }}'
     with_items:
     - 22
 
   - name: add inbound tcp rules to security group search
-    cloudstack_sg_rule:
-      name: search
+    cs_securitygroup_rule:
+      security_group: search
       start_port: '{{ item }}'
       end_port: '{{ item }}'
     with_items:
@@ -40,7 +44,7 @@
   gather_facts: no
   tasks:
   - name: create VMs on cloudstack
-    cloudstack_vm:
+    cs_instance:
       name: '{{ inventory_hostname_short }}'
       group: search
       template: Linux Debian 7 64-bit 10GB Disk
@@ -48,6 +52,7 @@
       security_groups:
       - default
       - search
+      affinity_group: search
       ssh_key: defaultkey
     register: vm
 
