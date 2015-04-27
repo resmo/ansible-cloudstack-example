@@ -1,0 +1,26 @@
+---
+- hosts: search
+  connection: local
+  gather_facts: no
+  tasks:
+  - name: remove VMs on cloudstack
+    cs_instance:
+      name: '{{ inventory_hostname_short }}'
+      state: absent
+
+- name: cloud cleanup
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+  - name: remove ssh key to cloudstack
+    cs_sshkeypair:
+      name: defaultkey
+      state: absent
+
+  - name: ensure security groups absent
+    cs_securitygroup:
+      name: '{{ item }}'
+      state: absent
+    with_items:
+    - search
