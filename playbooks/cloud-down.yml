@@ -22,5 +22,6 @@
     cs_securitygroup:
       name: '{{ item }}'
       state: absent
+    failed_when: false
     with_items:
     - search
