@@ -5,7 +5,7 @@
   tasks:
   - name: remove VMs on cloudstack
     cs_instance:
-      name: '{{ inventory_hostname_short }}'
+      display_name: "{{ inventory_hostname }}"
       state: absent
 
 - name: cloud cleanup
@@ -18,10 +18,18 @@
       name: defaultkey
       state: absent
 
-  - name: ensure security groups absent
-    cs_securitygroup:
-      name: '{{ item }}'
+  - name: ensure affinity groups absent
+    cs_affinitygroup:
+      name: "{{ item }}"
       state: absent
     failed_when: false
     with_items:
-    - search
+      - search
+
+  - name: ensure security groups absent
+    cs_securitygroup:
+      name: "{{ item }}"
+      state: absent
+    failed_when: false
+    with_items:
+      - search
