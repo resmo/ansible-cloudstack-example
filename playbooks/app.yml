@@ -3,22 +3,28 @@
   remote_user: root
   hosts: search
   tasks:
+  - name: ensure apt has https support
+    apt:
+      pkg: apt-transport-https
+    register: result
+    until: result.rc is undefined or result.rc != 100
+    retries: 5
+    delay: 10
+
   - name: add yacy gpg key
     apt_key:
-      url: http://debian.yacy.net/yacy_orbiter_key.asc
+      url: https://bintray.com/user/downloadSubjectPublicKey?username=bintray
 
   - name: add yacy repo
     apt_repository:
-      repo: deb http://debian.yacy.net /
+      repo: deb https://dl.bintray.com/luccioman/yacy_search_server {{ ansible_distribution_release }} main
 
   - name: install packages
     apt:
-      pkg: "{{ item }}"
+      pkg:
+        - yacy
+        - nginx
       update_cache: yes
-    with_items:
-      - openjdk-7-jre-headless
-      - yacy
-      - nginx
 
   - name: configre nginx for yacy
     template:
@@ -27,7 +33,7 @@
     notify: restart nginx
 
   - name: ensure services are running
-    service:
+    systemd:
       name: "{{ item }}"
       state: started
       enabled: yes
