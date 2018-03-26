@@ -1,16 +1,7 @@
 ---
 - name: install search engine
-  remote_user: root
   hosts: search
   tasks:
-  - name: ensure apt has https support
-    apt:
-      pkg: apt-transport-https
-    register: result
-    until: result.rc is undefined or result.rc != 100
-    retries: 5
-    delay: 10
-
   - name: add yacy gpg key
     apt_key:
       url: https://bintray.com/user/downloadSubjectPublicKey?username=bintray
