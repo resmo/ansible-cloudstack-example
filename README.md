@@ -1,5 +1,7 @@
 # CloudStack Example Playbook
 
+[![Demo Screencast](https://img.youtube.com/vi/cFC0dNvRaf4/1.jpg)](https://www.youtube.com/watch?v=cFC0dNvRaf4)
+
 ## What:
 Installs yacy search engine on Exoscale.
 
