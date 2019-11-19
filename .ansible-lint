@@ -1,0 +1,12 @@
+---
+# Ansible-Lint configuration
+# Options: https://github.com/ansible/ansible-lint#configuration-file
+
+use_default_rules: true
+
+skip_list:
+  - 405 # Remote package tasks should have a retry
+  - 602 # Don't compare to empty string
+  - 204 # Lines should be no longer than 160 chars
+  - 701 # meta/main.yml should contain relevant info
+  - 703 # meta/main.yml default values should be changed
