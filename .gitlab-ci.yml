@@ -1,0 +1,24 @@
+---
+image: registry.puzzle.ch/puzzle/ansible:2.8.6
+
+stages:
+  - check
+  - lint
+
+before_script:
+  - chmod 0750 . # fix world-writable dir. see https://docs.ansible.com/ansible/devel/reference_appendices/config.html#cfg-in-world-writable-dir
+
+ansible_syntax:
+  stage: check
+  script:
+    - ansible-playbook --syntax-check playbooks/*.yml
+
+ansible_lint:
+  stage: lint
+  script:
+    - ansible-lint playbooks/*.yml --force-color
+
+yaml_lint:
+  stage: lint
+  script:
+    - yamllint --strict --format colored .
