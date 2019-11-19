@@ -5,33 +5,44 @@
 ## What:
 Installs yacy search engine on Exoscale.
 
-## Install and run with Docker
+
+## Cloud Credentionals
 ~~~
 $ cat $HOME/.cloudstack.ini
 [cloudstack]
 endpoint = https://api.exoscale.ch/compute
 key = cloudstack api key
 secret = cloudstack api secret
+~~~
 
+## Instal by venv
+
+~~~
 $ git clone https://github.com/resmo/ansible-cloudstack-example.git
 $ cd ansible-cloudstack-example
-$ make build
-$ make run
-# Cleanup
-$ make clean
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+$ pip install -r requirements.txt
+$ ansible-playbook playbooks/site.yml
 ~~~
+
 
 ## Install by virtualenv
 ~~~
-$ cat $HOME/.cloudstack.ini
-[cloudstack]
-endpoint = https://api.exoscale.ch/compute
-key = cloudstack api key
-secret = cloudstack api secret
-
 $ git clone https://github.com/resmo/ansible-cloudstack-example.git
 $ cd ansible-cloudstack-example
 $ virtualenv app && source app/bin/activate
 $ pip install -r requirements.txt
 $ ansible-playbook playbooks/site.yml
+~~~
+
+## Install and run with Docker
+~~~
+$ git clone https://github.com/resmo/ansible-cloudstack-example.git
+$ cd ansible-cloudstack-example
+$ make build
+$ make run
+
+# Cleanup
+$ make clean
 ~~~
